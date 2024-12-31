@@ -1,0 +1,21 @@
+<link phx-track-static rel="stylesheet" href={~p"/assets/map.css"} />
+<script defer phx-track-static type="text/javascript" src={~p"/assets/map.js"}></script>
+<div class="flex flex-row">
+  <div id="map-container" class="h-screen border-2 border-black grow" phx-update="ignore">
+    <div id="map" class="h-full w-full"></div>
+  </div>
+
+  <div class="flex-none w-1/6 p-4 ml-8 h-screen border rounded-lg border-black">
+    <.input id="stamp-search-input" name="stamp-search-input" value="Hei" />
+    <%= for stamp <- @current_user.stamps do %>
+      <div class="pt-4 pb-2 border-b-2">
+        <p class="font-sans font-semibold text-lg">
+          {stamp.title}
+        </p>
+        <p class="font-mono text-sm">
+          {stamp.description}
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
