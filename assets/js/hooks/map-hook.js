@@ -11,9 +11,9 @@ const MapHook = {
     });
 
     this.handleEvent("add-marker", ({ longitude, latitude }) => {
-      console.log('long: ', longitude);
-      console.log('lat: ', latitude);
-      // new mapboxgl.Marker().setLngLat(location).addTo(map);
+      if(longitude !== null && latitude !== null) {
+        // new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+      }
     });
     
   },
