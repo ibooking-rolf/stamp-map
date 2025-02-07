@@ -1,13 +1,8 @@
-<header class="px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
-      <div class="text-2xl">Inges frimerkekart</div>
-    </div>
+<.flash_group flash={@flash} />
+
+<div class="grid grid-rows-12 grid-flow-col gap-4 px-4 py-4 leading-10">
+  <div class="p-4 w-full rounded-sm border-b-2 col-span-6">
+    <div class="text-2xl">Inges frimerkekart</div>
   </div>
-</header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto">
-    <.flash_group flash={@flash} />
-    {@inner_content}
-  </div>
-</main>
+  {@inner_content}
+</div>

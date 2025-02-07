@@ -1,0 +1,11 @@
+{
+  "name": "stamp-map",
+  "version": "1.0.0",
+  "description": "Inges stamp map",
+  "main": "index.js",
+  "author": "resa",
+  "license": "MIT",
+  "dependencies": {
+    "mapbox-gl": "^3.9.4"
+  }
+}

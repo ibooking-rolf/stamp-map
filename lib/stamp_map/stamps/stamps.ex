@@ -15,6 +15,10 @@ defmodule StampMap.Stamps do
     |> Repo.all()
   end
 
+  def get_stamp(stamp_id), do: Repo.get(Stamps, stamp_id)
+
+  def get_stamp!(stamp_id), do: Repo.get!(Stamps, stamp_id)
+
   def insert_stamp(stamp) do
     %Stamps{}
     |> Stamps.changeset(stamp)

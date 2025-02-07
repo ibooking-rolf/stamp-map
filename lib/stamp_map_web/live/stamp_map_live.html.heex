@@ -1,21 +1,27 @@
-<link phx-track-static rel="stylesheet" href={~p"/assets/map.css"} />
-<script defer phx-track-static type="text/javascript" src={~p"/assets/map.js"}></script>
-<div class="flex flex-row">
-  <div id="map-container" class="h-screen border-2 border-black grow" phx-update="ignore">
-    <div id="map" class="h-full w-full"></div>
-  </div>
-
-  <div class="flex-none w-1/6 p-4 ml-8 h-screen border rounded-lg border-black">
-    <.input id="stamp-search-input" name="stamp-search-input" value="Hei" />
-    <%= for stamp <- @current_user.stamps do %>
-      <div class="pt-4 pb-2 border-b-2">
-        <p class="font-sans font-semibold text-lg">
-          {stamp.title}
-        </p>
-        <p class="font-mono text-sm">
-          {stamp.description}
-        </p>
-      </div>
-    <% end %>
-  </div>
+<div
+  id="map-container"
+  class="w-full border-2 rounded-xl row-span-11 col-span-5"
+  phx-update="ignore"
+>
+  <!-- <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" data-access-token={@access_token} /> -->
+  <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" />
+</div>
+<div class="p-4 w-full rounded-xl row-span-11">
+  <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
+    <.input field={@search_form[:query]} label="" placeholder="Søk.." />
+  </.simple_form>
+  <%= for stamp <- @current_user.stamps do %>
+    <div
+      class="mt-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
+      phx-click="select_stamp"
+      phx-value-stampid={stamp.id}
+    >
+      <p class="font-sans font-semibold text-lg">
+        {stamp.title}
+      </p>
+      <p class="font-mono text-sm">
+        {stamp.description}
+      </p>
+    </div>
+  <% end %>
 </div>
