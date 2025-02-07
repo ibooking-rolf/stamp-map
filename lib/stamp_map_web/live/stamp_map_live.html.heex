@@ -6,22 +6,31 @@
   <!-- <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" data-access-token={@access_token} /> -->
   <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" />
 </div>
-<div class="p-4 w-full rounded-xl row-span-11">
+<div class="p-4 w-full rounded-xl border-2 row-span-10">
   <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
     <.input field={@search_form[:query]} label="" placeholder="Søk.." />
   </.simple_form>
   <%= for stamp <- @current_user.stamps do %>
     <div
-      class="mt-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
+      class="grid grid-rows-3 grid-flow-col gap-2 mt-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
       phx-click="select_stamp"
       phx-value-stampid={stamp.id}
     >
-      <p class="font-sans font-semibold text-lg">
+      <p class="row-span-1 col-span-3 font-sans font-semibold text-lg">
         {stamp.title}
       </p>
-      <p class="font-mono text-sm">
+      <p class="row-span-2 col-span-3 font-mono text-sm">
         {stamp.description}
       </p>
+      <div class="row-span-3 col-span-1">
+        <img class="h-full w-full rounded-xl" src="https://picsum.photos/200/300" />
+      </div>
     </div>
   <% end %>
+</div>
+
+<div class="w-full rounded-xl row-span-1">
+  <.button class="w-full h-full">
+    <.icon name="hero-squares-2x2" />
+  </.button>
 </div>
