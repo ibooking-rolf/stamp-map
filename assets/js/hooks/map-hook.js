@@ -16,6 +16,20 @@ const MapHook = {
       }
     });
     
+    this.handleEvent("add-stamp", (_) => {
+      const {lng, lat} = map.getCenter();
+      const marker = new mapboxgl.Marker({
+        draggable: true
+      }).setLngLat([lng, lat]).addTo(map);
+
+      function onDragEnd() {
+        const lngLat = marker.getLngLat();
+
+        console.log('dragend lnglat: ', lngLat);
+      }
+
+      marker.on('dragend', onDragEnd);
+    });
   },
 };
 

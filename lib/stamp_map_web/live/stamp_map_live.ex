@@ -1,6 +1,8 @@
 defmodule StampMapWeb.StampMapLive do
   use StampMapWeb, :live_view
 
+  alias Phoenix.LiveView.JS
+
   alias StampMap.Stamps
 
   def mount(_params, _session, socket) do
@@ -28,6 +30,10 @@ defmodule StampMapWeb.StampMapLive do
   def handle_event("stamp_search", %{"query" => search_query}, socket) do
     IO.inspect(search_query)
     {:noreply, socket}
+  end
+
+  def handle_event("add-stamp", _params, socket) do
+    {:noreply, push_event(socket, "add-stamp", %{})}
   end
 
   def handle_event("select_stamp", %{"stampid" => stamp_id}, socket) do
