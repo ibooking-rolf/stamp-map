@@ -1,36 +1,53 @@
-<div
-  id="map-container"
-  class="w-full border-2 rounded-xl row-span-11 col-span-5"
-  phx-update="ignore"
->
-  <!-- <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" data-access-token={@access_token} /> -->
-  <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" />
-</div>
-<div class="p-4 w-full rounded-xl border-2 row-span-10">
-  <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
-    <.input field={@search_form[:query]} label="" placeholder="Søk.." />
-  </.simple_form>
-  <%= for stamp <- @current_user.stamps do %>
-    <div
-      class="grid grid-rows-3 grid-flow-col gap-2 mt-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
-      phx-click="select_stamp"
-      phx-value-stampid={stamp.id}
-    >
-      <p class="row-span-1 col-span-3 font-sans font-semibold text-lg">
-        {stamp.title}
-      </p>
-      <p class="row-span-2 col-span-3 font-mono text-sm">
-        {stamp.description}
-      </p>
-      <div class="row-span-3 col-span-1">
-        <img class="h-full w-full rounded-xl" src="https://picsum.photos/200/300" />
+<div class="flex flex-grow">
+  <div class="flex flex-row flex-wrap py-4 flex-grow">
+    <main role="main" class="w-full sm:w-2/3 md:w-3/4 pt-1 px-2">
+      <div
+        id="map-container"
+        class="h-full w-full border-2 rounded-xl row-span-11 col-span-5"
+        phx-update="ignore"
+      >
+        <!-- <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" data-access-token={@access_token} /> -->
+        <div id="map" class="h-full w-full rounded-xl" phx-hook="MapHook" />
       </div>
-    </div>
-  <% end %>
+    </main>
+    <aside class="w-full sm:w-1/3 md:w-1/4 px-2">
+      <div class="sticky flex flex-col top-0 p-4 w-full h-full">
+        <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
+          <.input field={@search_form[:query]} label="" placeholder="Søk.." />
+        </.simple_form>
+        <%= for stamp <- @current_user.stamps do %>
+          <div
+            class="flex flex-row justify-between my-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
+            phx-click="select_stamp"
+            phx-value-stampid={stamp.id}
+          >
+            <div>
+              <p class="font-sans font-semibold text-lg">
+                {stamp.title}
+              </p>
+              <p class="font-mono text-sm">
+                {stamp.description} asjfnfnadlnflanfla fnlasnf las nflaknsflaks fnalksfn
+              </p>
+            </div>
+            <div>
+              <img class="h-full rounded-xl" src="https://picsum.photos/200/300" />
+            </div>
+          </div>
+        <% end %>
+        <div class="flex absolute bottom-0 right-0 justify-between gap-4 w-full rounded-xl">
+          <.button class="w-full h-full">
+            Se frimerker <.icon name="hero-squares-2x2" />
+          </.button>
+
+          <.button class="w-full h-full" phx-click={show_modal("add-stamp-modal")}>
+            Legg til <.icon name="hero-plus" />
+          </.button>
+        </div>
+      </div>
+    </aside>
+  </div>
 </div>
 
-<div class="w-full rounded-xl row-span-1">
-  <.button class="w-full h-full">
-    <.icon name="hero-squares-2x2" />
-  </.button>
-</div>
+<.modal id="add-stamp-modal" show={true}>
+  Huh, testing
+</.modal>
