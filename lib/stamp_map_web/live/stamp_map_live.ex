@@ -1,8 +1,6 @@
 defmodule StampMapWeb.StampMapLive do
   use StampMapWeb, :live_view
 
-  alias Phoenix.LiveView.JS
-
   alias StampMap.Stamps
 
   def mount(_params, _session, socket) do
@@ -23,6 +21,8 @@ defmodule StampMapWeb.StampMapLive do
      assign(socket,
        current_user: current_user,
        access_token: access_token,
+       add_new_stamp?: false,
+       add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps,
        search_form: to_form(%{"query" => ""})
      )}
   end
@@ -33,7 +33,11 @@ defmodule StampMapWeb.StampMapLive do
   end
 
   def handle_event("add-stamp", _params, socket) do
-    {:noreply, push_event(socket, "add-stamp", %{})}
+    {:noreply, assign(socket, :add_new_stamp?, true)}
+  end
+
+  def handle_event("new_stamp_validation", values, socket) do
+    {:noreply, assign(socket, add_stamp_form: to_form(values))}
   end
 
   def handle_event("select_stamp", %{"stampid" => stamp_id}, socket) do

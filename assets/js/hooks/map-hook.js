@@ -8,6 +8,8 @@ const MapHook = {
       container: this.el.id,
       zoom: 12,
       center: [10.3566333, 63.4340182], // [lng, lat]
+      // Vintage
+      // style: 'mapbox://styles/resa911/cmj91wlg2003f01s966xsdu1z',
     });
 
     this.handleEvent("add-marker", ({ longitude, latitude }) => {

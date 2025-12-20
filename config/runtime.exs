@@ -16,6 +16,7 @@ import Config
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
+
 config :stamp_map, :mapbox, access_token: System.get_env("MAPBOX_ACCESS_TOKEN")
 
 if System.get_env("PHX_SERVER") do

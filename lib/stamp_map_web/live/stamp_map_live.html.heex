@@ -17,37 +17,41 @@
     </main>
     <aside class="w-full sm:w-1/3 md:w-1/4 px-2">
       <div class="sticky flex flex-col top-0 p-4 w-full h-full">
-        <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
-          <.input field={@search_form[:query]} label="" placeholder="Søk.." />
-        </.simple_form>
-        <%= for stamp <- @current_user.stamps do %>
-          <div
-            class="flex flex-row justify-between my-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
-            phx-click="select_stamp"
-            phx-value-stampid={stamp.id}
-          >
-            <div>
-              <p class="font-sans font-semibold text-lg">
-                {stamp.title}
-              </p>
-              <p class="font-mono text-sm">
-                {stamp.description} asjfnfnadlnflanfla fnlasnf las nflaknsflaks fnalksfn
-              </p>
+        <%= if not @add_new_stamp? do %>
+          <.simple_form class="mb-6" for={@search_form} phx-change="stamp_search">
+            <.input field={@search_form[:query]} label="" placeholder="Søk.." />
+          </.simple_form>
+          <%= for stamp <- @current_user.stamps do %>
+            <div
+              class="flex flex-row justify-between my-4 p-3 rounded-md border-2 cursor-pointer hover:bg-gray-100"
+              phx-click="select_stamp"
+              phx-value-stampid={stamp.id}
+            >
+              <div>
+                <p class="font-sans font-semibold text-lg">
+                  {stamp.title}
+                </p>
+                <p class="font-mono text-sm">
+                  {stamp.description} asjfnfnadlnflanfla fnlasnf las nflaknsflaks fnalksfn
+                </p>
+              </div>
+              <div>
+                <img class="h-full rounded-xl" src="https://picsum.photos/200/300" />
+              </div>
             </div>
-            <div>
-              <img class="h-full rounded-xl" src="https://picsum.photos/200/300" />
-            </div>
-          </div>
-        <% end %>
-        <div class="flex absolute bottom-0 right-0 justify-between gap-4 w-full rounded-xl">
-          <.button class="w-full h-full">
-            Se frimerker <.icon name="hero-squares-2x2" />
-          </.button>
+          <% end %>
+          <div class="flex absolute bottom-0 right-0 justify-between gap-4 w-full rounded-xl">
+            <.button class="w-full h-full">
+              Se frimerker <.icon name="hero-squares-2x2" />
+            </.button>
 
-          <.button class="w-full h-full" phx-click="add-stamp">
-            Legg til <.icon name="hero-plus" />
-          </.button>
-        </div>
+            <.button class="w-full h-full" phx-click="add-stamp">
+              Legg til <.icon name="hero-plus" />
+            </.button>
+          </div>
+        <% else %>
+          <.add_new_stamp form={@add_stamp_form} />
+        <% end %>
       </div>
     </aside>
   </div>

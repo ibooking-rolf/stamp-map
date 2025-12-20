@@ -85,6 +85,7 @@ defmodule StampMapWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import StampMapWeb.CoreComponents
+      import StampMapWeb.Components
       import StampMapWeb.Gettext
 
       # Shortcut for generating JS commands
