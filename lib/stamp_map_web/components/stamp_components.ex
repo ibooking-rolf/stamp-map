@@ -4,6 +4,7 @@ defmodule StampMapWeb.Components do
   import StampMapWeb.CoreComponents
 
   attr :form, :any, required: true
+
   def add_new_stamp(assigns) do
     ~H"""
     <h1>Nytt frimerke</h1>

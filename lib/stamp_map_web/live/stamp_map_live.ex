@@ -22,7 +22,8 @@ defmodule StampMapWeb.StampMapLive do
        current_user: current_user,
        access_token: access_token,
        add_new_stamp?: false,
-       add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps,
+       add_stamp_form: to_form(%{}),
+       as: Stamps.Schemas.Stamps,
        search_form: to_form(%{"query" => ""})
      )}
   end
@@ -46,11 +47,22 @@ defmodule StampMapWeb.StampMapLive do
 
     current_user = Map.merge(current_user, %{stamps: stamps})
 
-    {:noreply, assign(socket, current_user: current_user, add_new_stamp?: false, add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps)}
+    {:noreply,
+     assign(socket,
+       current_user: current_user,
+       add_new_stamp?: false,
+       add_stamp_form: to_form(%{}),
+       as: Stamps.Schemas.Stamps
+     )}
   end
 
   def handle_event("new_stamp_validation", %{"_target" => ["reset"]}, socket) do
-    {:noreply, assign(socket, add_new_stamp?: false, add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps)}
+    {:noreply,
+     assign(socket,
+       add_new_stamp?: false,
+       add_stamp_form: to_form(%{}),
+       as: Stamps.Schemas.Stamps
+     )}
   end
 
   def handle_event("new_stamp_validation", values, socket) do
