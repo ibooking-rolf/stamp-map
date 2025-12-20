@@ -36,6 +36,23 @@ defmodule StampMapWeb.StampMapLive do
     {:noreply, assign(socket, :add_new_stamp?, true)}
   end
 
+  def handle_event("save-stamp", unsigned_params, socket) do
+    current_user = socket.assigns.current_user
+
+    Map.merge(unsigned_params, %{"user_id" => current_user.id})
+    |> Stamps.insert_stamp()
+
+    stamps = Stamps.get_stamps_by_user_id(socket.assigns.current_user.id)
+
+    current_user = Map.merge(current_user, %{stamps: stamps})
+
+    {:noreply, assign(socket, current_user: current_user, add_new_stamp?: false, add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps)}
+  end
+
+  def handle_event("new_stamp_validation", %{"_target" => ["reset"]}, socket) do
+    {:noreply, assign(socket, add_new_stamp?: false, add_stamp_form: to_form(%{}), as: Stamps.Schemas.Stamps)}
+  end
+
   def handle_event("new_stamp_validation", values, socket) do
     {:noreply, assign(socket, add_stamp_form: to_form(values))}
   end
