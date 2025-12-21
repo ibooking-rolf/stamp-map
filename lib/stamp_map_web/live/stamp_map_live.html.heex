@@ -32,7 +32,7 @@
                   {stamp.title}
                 </p>
                 <p class="font-mono text-sm">
-                  {stamp.description} asjfnfnadlnflanfla fnlasnf las nflaknsflaks fnalksfn
+                  {stamp.description}
                 </p>
               </div>
               <div>
@@ -50,7 +50,7 @@
             </.button>
           </div>
         <% else %>
-          <.add_new_stamp form={@add_stamp_form} />
+          <.add_new_stamp form={@add_stamp_form} categories={@categories} />
         <% end %>
       </div>
     </aside>

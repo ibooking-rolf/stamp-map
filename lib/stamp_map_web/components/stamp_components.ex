@@ -4,6 +4,7 @@ defmodule StampMapWeb.Components do
   import StampMapWeb.CoreComponents
 
   attr :form, :any, required: true
+  attr :categories, :any
 
   def add_new_stamp(assigns) do
     ~H"""
@@ -16,6 +17,14 @@ defmodule StampMapWeb.Components do
       <div class="w-full inline-flex flex-row justify-between">
         <.input field={@form[:longitude]} readonly label="Lengdegrad" placeholder="" />
         <.input field={@form[:latitude]} readonly label="Breddegrad" placeholder="" />
+      </div>
+
+      <div class="w-full inline-flex flex-row justify-between">
+        <.input field={@form[:category_id]} type="select" options={@categories} label="Kategori" />
+      </div>
+
+      <div class="w-full">
+        Bilder
       </div>
 
       <:actions>

@@ -1,6 +1,7 @@
 defmodule StampMapWeb.StampMapLive do
   use StampMapWeb, :live_view
 
+  alias StampMap.Categories
   alias StampMap.Stamps
 
   def mount(_params, _session, socket) do
@@ -33,7 +34,10 @@ defmodule StampMapWeb.StampMapLive do
   end
 
   def handle_event("add-stamp", _params, socket) do
-    {:noreply, push_event(assign(socket, :add_new_stamp?, true), "add-stamp", %{})}
+    categories = Categories.get_categories_by_user_id(socket.assigns.current_user.id)
+
+    {:noreply,
+     assign(socket, add_new_stamp?: true, categories: categories) |> push_event("add-stamp", %{})}
   end
 
   def handle_event("save-stamp", %{"stamps" => unsigned_params}, socket) do

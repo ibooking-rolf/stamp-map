@@ -4,6 +4,7 @@ defmodule StampMap.Stamps.Schemas.Stamps do
   import Ecto.Changeset
 
   alias StampMap.Accounts.User
+  alias StampMap.Categories.Schemas.Category
   alias StampMap.Stamps.Schemas.StampImages
 
   alias __MODULE__
@@ -16,6 +17,11 @@ defmodule StampMap.Stamps.Schemas.Stamps do
     field :longitude, :float
     field :latitude, :float
     field :active, :boolean, default: true
+    field :issued, :date
+
+    belongs_to(:category, Category)
+    belongs_to(:collection, Category)
+    belongs_to(:series, Category)
 
     timestamps(type: :utc_datetime)
 
@@ -31,7 +37,11 @@ defmodule StampMap.Stamps.Schemas.Stamps do
       :url,
       :longitude,
       :latitude,
-      :active
+      :active,
+      :issued,
+      :category_id,
+      :collection_id,
+      :series_id
     ])
   end
 end
