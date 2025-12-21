@@ -22,8 +22,7 @@ defmodule StampMapWeb.StampMapLive do
        current_user: current_user,
        access_token: access_token,
        add_new_stamp?: false,
-       add_stamp_form: to_form(%{}),
-       as: Stamps.Schemas.Stamps,
+       add_stamp_form: to_form(Stamps.Schemas.Stamps.changeset(%Stamps.Schemas.Stamps{})),
        search_form: to_form(%{"query" => ""})
      )}
   end
@@ -34,10 +33,10 @@ defmodule StampMapWeb.StampMapLive do
   end
 
   def handle_event("add-stamp", _params, socket) do
-    {:noreply, assign(socket, :add_new_stamp?, true)}
+    {:noreply, push_event(assign(socket, :add_new_stamp?, true), "add-stamp", %{})}
   end
 
-  def handle_event("save-stamp", unsigned_params, socket) do
+  def handle_event("save-stamp", %{"stamps" => unsigned_params}, socket) do
     current_user = socket.assigns.current_user
 
     Map.merge(unsigned_params, %{"user_id" => current_user.id})
@@ -51,8 +50,7 @@ defmodule StampMapWeb.StampMapLive do
      assign(socket,
        current_user: current_user,
        add_new_stamp?: false,
-       add_stamp_form: to_form(%{}),
-       as: Stamps.Schemas.Stamps
+       add_stamp_form: to_form(Stamps.Schemas.Stamps.changeset(%Stamps.Schemas.Stamps{}))
      )}
   end
 
@@ -60,13 +58,26 @@ defmodule StampMapWeb.StampMapLive do
     {:noreply,
      assign(socket,
        add_new_stamp?: false,
-       add_stamp_form: to_form(%{}),
-       as: Stamps.Schemas.Stamps
-     )}
+       add_stamp_form: to_form(Stamps.Schemas.Stamps.changeset(%Stamps.Schemas.Stamps{}))
+     ) |> push_event("new_stamp_reset", %{})}
   end
 
-  def handle_event("new_stamp_validation", values, socket) do
-    {:noreply, assign(socket, add_stamp_form: to_form(values))}
+  def handle_event("new_stamp_validation", %{"stamps" => values}, socket) do
+    form =
+      %Stamps.Schemas.Stamps{}
+      |> Stamps.Schemas.Stamps.changeset(values)
+      |> to_form(action: :validate)
+
+    {:noreply, assign(socket, add_stamp_form: form)}
+  end
+
+  def handle_event("update-stamp-location", %{"new_lng_lat" => %{"lat" => lat, "lng" => lng}}, socket) do
+    form =
+      socket.assigns.add_stamp_form.data
+      |> Stamps.Schemas.Stamps.changeset(Map.merge(socket.assigns.add_stamp_form.params, %{"longitude" => lng, "latitude" => lat}))
+      |> to_form(action: :validate)
+
+    {:noreply, assign(socket, add_stamp_form: form)}
   end
 
   def handle_event("select_stamp", %{"stampid" => stamp_id}, socket) do

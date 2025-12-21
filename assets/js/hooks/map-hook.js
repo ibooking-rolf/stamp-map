@@ -12,6 +12,8 @@ const MapHook = {
       // style: 'mapbox://styles/resa911/cmj91wlg2003f01s966xsdu1z',
     });
 
+    var newMarker;
+
     this.handleEvent("add-marker", ({ longitude, latitude }) => {
       if(longitude !== null && latitude !== null) {
         // new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
@@ -20,18 +22,21 @@ const MapHook = {
     
     this.handleEvent("add-stamp", (_) => {
       const {lng, lat} = map.getCenter();
-      const marker = new mapboxgl.Marker({
+      newMarker = new mapboxgl.Marker({
         draggable: true
       }).setLngLat([lng, lat]).addTo(map);
 
-      function onDragEnd() {
-        const lngLat = marker.getLngLat();
+      this.pushEvent("update-stamp-location", {"new_lng_lat": newMarker.getLngLat()});
 
-        console.log('dragend lnglat: ', lngLat);
-      }
-
-      marker.on('dragend', onDragEnd);
+      newMarker.on('dragend', ({_, target}) => {
+        this.pushEvent("update-stamp-location", {"new_lng_lat": target.getLngLat()});
+      });
     });
+
+    this.handleEvent("new_stamp_reset", (_) => {
+      newMarker.remove();
+      newMarker = null;
+    })
   },
 };
 

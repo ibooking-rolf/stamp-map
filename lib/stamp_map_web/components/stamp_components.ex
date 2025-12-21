@@ -14,8 +14,8 @@ defmodule StampMapWeb.Components do
       <.input field={@form[:url]} label="URL" placeholder="" />
 
       <div class="w-full inline-flex flex-row justify-between">
-        <.input field={@form[:longitude]} disabled label="Lengdegrad" placeholder="" />
-        <.input field={@form[:latitude]} disabled label="Breddegrad" placeholder="" />
+        <.input field={@form[:longitude]} readonly label="Lengdegrad" placeholder="" />
+        <.input field={@form[:latitude]} readonly label="Breddegrad" placeholder="" />
       </div>
 
       <:actions>

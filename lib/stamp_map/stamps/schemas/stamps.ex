@@ -22,7 +22,7 @@ defmodule StampMap.Stamps.Schemas.Stamps do
     has_many(:images, StampImages, foreign_key: :stamp_id)
   end
 
-  def changeset(%Stamps{} = stamps, attrs) do
+  def changeset(%Stamps{} = stamps, attrs \\ %{}) do
     stamps
     |> cast(attrs, [
       :user_id,
