@@ -59,7 +59,8 @@ defmodule StampMapWeb.StampMapLive do
      assign(socket,
        add_new_stamp?: false,
        add_stamp_form: to_form(Stamps.Schemas.Stamps.changeset(%Stamps.Schemas.Stamps{}))
-     ) |> push_event("new_stamp_reset", %{})}
+     )
+     |> push_event("new_stamp_reset", %{})}
   end
 
   def handle_event("new_stamp_validation", %{"stamps" => values}, socket) do
@@ -71,10 +72,16 @@ defmodule StampMapWeb.StampMapLive do
     {:noreply, assign(socket, add_stamp_form: form)}
   end
 
-  def handle_event("update-stamp-location", %{"new_lng_lat" => %{"lat" => lat, "lng" => lng}}, socket) do
+  def handle_event(
+        "update-stamp-location",
+        %{"new_lng_lat" => %{"lat" => lat, "lng" => lng}},
+        socket
+      ) do
     form =
       socket.assigns.add_stamp_form.data
-      |> Stamps.Schemas.Stamps.changeset(Map.merge(socket.assigns.add_stamp_form.params, %{"longitude" => lng, "latitude" => lat}))
+      |> Stamps.Schemas.Stamps.changeset(
+        Map.merge(socket.assigns.add_stamp_form.params, %{"longitude" => lng, "latitude" => lat})
+      )
       |> to_form(action: :validate)
 
     {:noreply, assign(socket, add_stamp_form: form)}
