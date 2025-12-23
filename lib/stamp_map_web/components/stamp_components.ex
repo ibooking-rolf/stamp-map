@@ -1,6 +1,7 @@
 defmodule StampMapWeb.Components do
   use Phoenix.Component
 
+  import LiveSelect
   import StampMapWeb.CoreComponents
 
   attr :form, :any, required: true
@@ -19,9 +20,7 @@ defmodule StampMapWeb.Components do
         <.input field={@form[:latitude]} readonly label="Breddegrad" placeholder="" />
       </div>
 
-      <div class="w-full inline-flex flex-row justify-between">
-        <.input field={@form[:category_id]} type="select" options={@categories} label="Kategori" />
-      </div>
+      <.live_select field={@form[:category_id]} allow_clear placeholder="Kategori" />
 
       <div class="w-full">
         Bilder

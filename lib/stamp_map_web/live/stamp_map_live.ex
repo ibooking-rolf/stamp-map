@@ -4,6 +4,7 @@ defmodule StampMapWeb.StampMapLive do
   alias StampMap.Categories
   alias StampMap.Stamps
 
+  @impl true
   def mount(_params, _session, socket) do
     {current_user, access_token} =
       if Map.has_key?(socket.assigns, :current_user) do
@@ -34,17 +35,20 @@ defmodule StampMapWeb.StampMapLive do
   end
 
   def handle_event("add-stamp", _params, socket) do
-    categories = Categories.get_categories_by_user_id(socket.assigns.current_user.id)
+    categories =
+      Categories.get_categories_by_user_id(socket.assigns.current_user.id)
+      |> to_select_options(:categories)
 
     {:noreply,
      assign(socket, add_new_stamp?: true, categories: categories) |> push_event("add-stamp", %{})}
   end
 
-  def handle_event("save-stamp", %{"stamps" => unsigned_params}, socket) do
+  def handle_event("save-stamp", %{"stamps" => unsigned_params} = param, socket) do
+    IO.inspect(param)
     current_user = socket.assigns.current_user
 
     Map.merge(unsigned_params, %{"user_id" => current_user.id})
-    |> Stamps.insert_stamp()
+    # |> Stamps.insert_stamp()
 
     stamps = Stamps.get_stamps_by_user_id(socket.assigns.current_user.id)
 
@@ -56,6 +60,36 @@ defmodule StampMapWeb.StampMapLive do
        add_new_stamp?: false,
        add_stamp_form: to_form(Stamps.Schemas.Stamps.changeset(%Stamps.Schemas.Stamps{}))
      )}
+  end
+
+  def handle_event(
+        "new_stamp_validation",
+        %{
+          "_target" => ["stamps", "category_id"],
+          "stamps" => %{"category_id_text_input" => <<"Legg til ", new_category_name::binary>>}
+        },
+        socket
+      ) do
+    stamp_category_type = Categories.get_category_type_by_type_name!("STAMP")
+
+    category_attrs = %{
+      category_type_id: stamp_category_type.id,
+      user_id: socket.assigns.current_user.id,
+      name: new_category_name
+    }
+
+    {:ok, new_category} = Categories.insert_category(category_attrs)
+
+    form =
+      socket.assigns.add_stamp_form.data
+      |> Stamps.Schemas.Stamps.changeset(
+        Map.merge(socket.assigns.add_stamp_form.params, %{
+          "category_id" => {new_category.name, new_category.id}
+        })
+      )
+      |> to_form(action: :validate)
+
+    {:noreply, assign(socket, add_stamp_form: form)}
   end
 
   def handle_event("new_stamp_validation", %{"_target" => ["reset"]}, socket) do
@@ -101,4 +135,19 @@ defmodule StampMapWeb.StampMapLive do
        latitude: selected_stamp.latitude
      })}
   end
+
+  @impl true
+  def handle_event("live_select_change", %{"text" => text, "id" => live_select_id}, socket) do
+    categories =
+      Categories.search_categories_by_name(socket.assigns.current_user.id, text)
+      |> to_select_options(:categories)
+      |> Kernel.++([{"Legg til #{text}", nil}])
+
+    send_update(LiveSelect.Component, id: live_select_id, options: categories)
+
+    {:noreply, socket}
+  end
+
+  defp to_select_options(list, type) when type in [:categories],
+    do: Enum.map(list, &{&1.name, &1.id})
 end

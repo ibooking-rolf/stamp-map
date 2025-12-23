@@ -9,7 +9,8 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/stamp_map_web.ex",
-    "../lib/stamp_map_web/**/*.*ex"
+    "../lib/stamp_map_web/**/*.*ex",
+    "../deps/live_select/lib/live_select/component.*ex"
   ],
   theme: {
     extend: {
