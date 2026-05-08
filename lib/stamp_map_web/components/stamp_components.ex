@@ -21,6 +21,7 @@ defmodule StampMapWeb.Components do
       </div>
 
       <.live_select field={@form[:category_id]} allow_clear placeholder="Kategori" />
+      <.live_select field={@form[:collection_id]} allow_clear placeholder="Samling" />
 
       <div class="w-full">
         Bilder
