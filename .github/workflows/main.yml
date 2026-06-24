@@ -24,6 +24,7 @@ jobs:
       - name: Generate release
         run: mix phx.gen.release --docker
   deploy:
+    needs: build
     env:
       MIX_ENV: prod
     runs-on: self-hosted
