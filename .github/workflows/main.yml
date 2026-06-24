@@ -23,9 +23,13 @@ jobs:
 
       - name: Generate release
         run: mix phx.gen.release --docker
-
-      - name: Move release
-        run: cp -r ./* $HOME/server/share/stamp-map/
-
+  deploy:
+    env:
+      MIX_ENV: prod
+    runs-on: self-hosted
+    steps:
       - name: Run migrations
         run: docker exec stamp-map ./bin/migrate
+
+      - name: Restart service
+        run: cd $HOME/server && docker compose restart stamp-map --build
