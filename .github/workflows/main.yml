@@ -9,6 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Moving one dir up
+        run: cp -r ./* ../ && cd .. && rm -rf stamp-map
+
       - name: where am i
         run: pwd && ls
 
