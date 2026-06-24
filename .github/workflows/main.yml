@@ -19,8 +19,5 @@ jobs:
       - name: Generate release
         run: mix phx.gen.release --docker
 
-      - name: Build
-        run: mix release
-
-      - name: Checks
-        run: pwd && ls
+      - name: Move release
+        run: cp Dockerfile $HOME/server/share/stamp-map/
