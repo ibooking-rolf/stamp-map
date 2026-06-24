@@ -12,7 +12,7 @@ jobs:
           path: '.'
 
       - name: where am i
-        run: pwd && ls
+        run: pwd && ls -la
 
       - name: Nodejs setup
         run: cd assets && yarn install && cd ..
