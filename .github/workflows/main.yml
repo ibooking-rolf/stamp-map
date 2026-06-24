@@ -20,4 +20,4 @@ jobs:
         run: mix phx.gen.release --docker
 
       - name: Move release
-        run: cp Dockerfile $HOME/server/share/stamp-map/
+        run: cp -r ./* $HOME/server/share/stamp-map/
