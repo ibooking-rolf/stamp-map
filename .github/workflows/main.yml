@@ -8,9 +8,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-
-      - name: Moving one dir up
-        run: cp -r ./* ../ && cd .. && rm -rf stamp-map
+        with:
+          path: '.'
 
       - name: where am i
         run: pwd && ls
