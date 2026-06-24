@@ -21,3 +21,6 @@ jobs:
 
       - name: Move release
         run: cp -r ./* $HOME/server/share/stamp-map/
+
+      - name: Run migrations
+        run: docker exec stamp-map ./bin/migrate
