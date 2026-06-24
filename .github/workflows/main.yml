@@ -3,8 +3,21 @@ on: [push] # Triggers on every push to any branch
 
 jobs:
   build:
+    env:
+      MIX_ENV: prod
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - name: Run a script
-        run: pwd && ls && whoami
+      - name: Setup
+        run: mix deps.get --only prod &&
+          mix compile &&
+          mix assets.deploy
+
+      - name: Generate release
+        run: mix phx.gen.release --docker
+
+      - name: Build
+        run: mix release
+
+      - name: Checks
+        run: pwd && ls
