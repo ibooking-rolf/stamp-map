@@ -9,6 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: where am i
+        run: pwd && ls
+
       - name: Nodejs setup
         run: cd assets && yarn install && cd ..
       - name: Setup
