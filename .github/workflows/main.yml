@@ -28,4 +28,4 @@ jobs:
         run: docker exec stamp-map ./bin/migrate
 
       - name: Restart service
-        run: cd $HOME/server && docker compose down && docker compose up -d stamp-map --build
+        run: cd $HOME/server && docker compose down stamp-map && docker compose up -d stamp-map --build
