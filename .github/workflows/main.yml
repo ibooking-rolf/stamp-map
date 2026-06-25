@@ -16,13 +16,11 @@ jobs:
 
       - name: Nodejs setup
         run: cd assets && yarn install && cd ..
+
       - name: Setup
         run: mix deps.get --only prod &&
           mix compile &&
           mix assets.deploy
-
-      - name: Generate release
-        run: mix phx.gen.release --docker
   deploy:
     needs: build
     env:
@@ -33,4 +31,4 @@ jobs:
         run: docker exec stamp-map ./bin/migrate
 
       - name: Restart service
-        run: cd $HOME/server && docker compose restart stamp-map --build
+        run: cd $HOME/server && docker compose down && docker compose up -d stamp-map --build
